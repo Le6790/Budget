@@ -9,7 +9,7 @@
       <div class="col s12 m6 l4">
         <div class="card-panel">
           <h6 class="bold">Total Budget</h6>
-          <h1 class="bold">${{project.budget }}</h1>
+          <h1 class="bold">${{ project.budget }}</h1>
         </div>
       </div>
 
@@ -31,7 +31,7 @@
   </section>
 <section class="section section-expenses">
   <div class="row">
-    <button class="btn waves-effect right">
+    <button class="btn waves-effect right modal-trigger" href="#expenseModal">
       <i class="material-icons white-text left">add_circle</i>
        Add Expense
     </button>
@@ -46,15 +46,15 @@
         <div class="row">
 
           <div class="col l6">
-            <span class="title">{{expense.title}}</span>
+            <span class="title">{{ expense.title }}</span>
           </div>
 
           <div class="col l3">
-            <span class="title">{{expense.amount}}</span>
+            <span class="title">{{ expense.amount }}</span>
           </div>
 
           <div class="col l1">
-            <span class="title bold">{{expense.category.name}}</span>
+            <span class="title bold">{{ expense.category.name }}</span>
           </div>
 
           <a href="">
@@ -72,5 +72,40 @@
 </section>
 
 </div>
+
+
+<div id="expenseModal" class = "modal">
+  <div class="modal-condent">
+    <h4>Add expense</h4>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <label for="title">Title</label>
+      <input name="title" id="title">
+
+      <label for="amount">Amount</label>
+      <input name="amount" id="amount">
+
+      <select name="category">
+        {% for category in category_list %}
+        <option>{{ category.name }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="btn">Add</button>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  var elem = document.querySelector('.modal')
+  var instance = M.Modal.init(elem)
+
+  var elem = document.querySelector('select')
+  var instance = M.FormSelect.init(elem)
+</script>
+
 
 {% endblock %}
