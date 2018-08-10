@@ -8,8 +8,17 @@ import json
 
 #returns the project-list.html
 def project_list(request):
-    project_list = Project.objects.all()
-    return render(request, 'budget/project-list.html', {'project_list': project_list})
+
+    if request.method == 'GET':
+        project_list = Project.objects.all()
+        return render(request, 'budget/project-list.html', {'project_list': project_list})
+    elif request.method == 'DELETE':
+        id = json.loads(request.body.decode("utf-8"))['id']
+        project = Project.objects.get(id=id)
+        project.delete()
+        project_list = Project.objects.all()
+        return render(request, 'budget/project-list.html', {'project_list': project_list})
+
 #returns the project-detail.html
 def project_detail(request, project_slug):
     project = get_object_or_404(Project, slug=project_slug)

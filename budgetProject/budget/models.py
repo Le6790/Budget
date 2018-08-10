@@ -25,8 +25,7 @@ class Project(models.Model):
         expense_list = Expense.objects.filter(project=self)
         return len(expense_list)
 
-    def __str__(self):
-        return self.title
+
 
 class Category(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
