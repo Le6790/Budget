@@ -13,6 +13,9 @@
       <div class="card-panel">
         <h5>{{ project.name }}</h5>
         <a href="{% url 'detail' project.slug %}" class="btn">Visit</a>
+        <a class="close-icon" onclick="deleteProject(this)" data-id="{{ project.id }}">
+          <i class="material-icons red-text right">close</i>
+        </a>
       </div>
     </div>
     {% empty %}
@@ -30,4 +33,29 @@
 
 </div>
 
+<script>
+var elem = document.querySelector('.modal')
+var instance = M.Modal.init(elem)
+
+var elem = document.querySelector('select')
+var instance = M.FormSelect.init(elem)
+
+
+function deleteProject(e){
+
+  let id = e.dataset.id
+  e.closest('div').remove()
+
+  fetch('', {
+    method: 'DELETE',
+    headers: {
+      'X-CSRFToken': '{{ csrf_token }}'
+    },
+    body: JSON.stringify({
+      'id': id
+    }),
+    credentials: 'same-origin',
+  })
+}
+</script>
 {% endblock %}
